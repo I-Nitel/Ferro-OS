@@ -1,0 +1,37 @@
+nasm boot.asm -f bin -o boot.bin
+nasm kernel.asm -f bin -o kernel.bin
+dd if=/dev/zero of=coloros.img bs=1024 count=1440 status=none
+mkfs.vfat -F12 coloros.img 1> /dev/null
+mcopy -n -i coloros.img kernel.bin ::
+dd if=boot.bin of=coloros.img bs=1 skip=62 seek=62 conv=notrunc status=none
+nasm hello.asm -f bin -o HELLO.BIN
+mcopy -i coloros.img HELLO.BIN ::HELLO.BIN
+nasm SYS.ASM -f bin -o SYS.BIN
+mcopy -i coloros.img SYS.BIN ::SYS.BIN
+nasm BEEP.ASM -f bin -o BEEP.BIN
+mcopy -i coloros.img BEEP.BIN ::BEEP.BIN
+nasm COLOR.ASM -f bin -o COLOR.BIN
+mcopy -i coloros.img COLOR.BIN ::COLOR.BIN
+nasm MEM.ASM -f bin -o MEM.BIN
+mcopy -i coloros.img MEM.BIN ::MEM.BIN
+nasm SCAN.ASM -f bin -o SCAN.BIN
+mcopy -i coloros.img SCAN.BIN ::SCAN.BIN
+nasm LOCK.ASM -f bin -o LOCK.BIN
+mcopy -i coloros.img LOCK.BIN ::LOCK.BIN
+nasm ADD.ASM -f bin -o ADD.BIN
+mcopy -i coloros.img ADD.BIN ::ADD.BIN
+nasm REBOOT.ASM -f bin -o REBOOT.BIN
+mcopy -i coloros.img REBOOT.BIN ::REBOOT.BIN
+nasm CATCH.ASM -f bin -o CATCH.BIN
+mcopy -i coloros.img CATCH.BIN ::CATCH.BIN
+nasm SNAKE.ASM -f bin -o SNAKE.BIN
+mcopy -i coloros.img SNAKE.BIN ::SNAKE.BIN
+nasm FDISK.ASM -f bin -o FDISK.BIN
+mcopy -i coloros.img FDISK.BIN ::FDISK.BIN
+nasm RENAME.ASM -f bin -o RENAME.BIN
+mcopy -i coloros.img RENAME.BIN ::RENAME.BIN
+nasm NED.ASM -f bin -o NED.BIN
+mcopy -i coloros.img NED.BIN ::NED.BIN
+mv coloros.img ferro_os.img
+
+qemu-system-i386 -fda ferro_os.img
